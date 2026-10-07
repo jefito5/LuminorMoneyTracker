@@ -27,5 +27,11 @@ namespace BrrBrrMoney.Services
             }
             return categorySums;
         }
+        public List<KeyValuePair<string, decimal>> SortByAmountDescending(Dictionary<string, decimal> categoryTotals)
+        {
+            List<KeyValuePair<string,decimal>> sortedTotals = new List<KeyValuePair<string,decimal>>(categoryTotals);
+            sortedTotals.Sort((a,b) => b.Value.CompareTo(a.Value));
+            return sortedTotals;
+        }
     }
 }

@@ -38,7 +38,8 @@ namespace BrrBrrMoney
             }
             TransactionAnalyzer analyzer = new TransactionAnalyzer();
             Dictionary<string, decimal> totals = analyzer.SumExpensesByCategory(statementTransactions);
-            foreach(var pair in totals)
+            List<KeyValuePair<string,decimal>> sortedTotals = analyzer.SortByAmountDescending(totals);
+            foreach(var pair in sortedTotals)
             {
                 Console.WriteLine($"Category {pair.Key}: Sum {pair.Value}");
             }
