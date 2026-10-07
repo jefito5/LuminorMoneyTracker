@@ -44,5 +44,9 @@ namespace BrrBrrMoney.Models
         }
 
         public abstract decimal GetSignedAmount();
+        public override string ToString()
+        {
+            return $"{Date:yyyy-MM-dd HH:mm} {GetSignedAmount(),9:+0.00;-0.00}  {Description}";
+        }
     }
 }

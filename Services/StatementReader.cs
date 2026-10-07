@@ -21,7 +21,21 @@ namespace BrrBrrMoney.Services
         {
             _categorizer = categorizer ?? throw new ArgumentNullException(nameof(categorizer));
         }
+        private static string CleanDescription(string raw)
+        {
+            // Only card payments need cleaning; 49 is the minimum total length
+            if (!raw.StartsWith("*") || raw.Length <= 49) return raw;
 
+            // Skip card info at the start (30) and the operation number at the end (19)
+            string text = raw[30..^19];
+
+            // The city is repeated at the end (KAUNASKAUNAS), keep only one copy
+            string last = text[(text.LastIndexOf(' ') + 1)..];
+            int half = last.Length / 2;
+            bool repeated = last.Length % 2 == 0 && last[..half] == last[half..];
+
+            return repeated ? text[..^half] : text;
+        }
         public List<Transaction> ReadStatement(string filePath)
         {
             SkippedLineCount = 0;
@@ -41,7 +55,8 @@ namespace BrrBrrMoney.Services
                         var parts = line.Split(';');
                         string type = parts[TypeIndex].Trim('"');
                         decimal amount = decimal.Parse(parts[AmountIndex].Trim('"'), CultureInfo.InvariantCulture);
-                        string description = parts[DescriptionIndex].Trim('"');
+                        string rawDescription = parts[DescriptionIndex].Trim('"');
+                        string description = CleanDescription(rawDescription);
                         string dateTimeStr = parts[DataIndex].Trim('"') + " " + parts[TimeIndex].Trim('"');
                         DateTime date = DateTime.ParseExact(dateTimeStr, "yyyyMMdd HHmmss", CultureInfo.InvariantCulture);
 

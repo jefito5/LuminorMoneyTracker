@@ -21,7 +21,7 @@ namespace BrrBrrMoney.Services
                     }
                     else
                     {
-                        categorySums[expense.Category] = +expense.Amount;
+                        categorySums[expense.Category] += expense.Amount;
                     }
                 }
             }
@@ -33,30 +33,30 @@ namespace BrrBrrMoney.Services
             sortedTotals.Sort((a, b) => b.Value.CompareTo(a.Value));
             return sortedTotals;
         }
-        public Transaction FindBiggestSpend(List<Transaction> transactions)
+        public Transaction? FindBiggestSpend(List<Transaction> transactions)
         {
-            Transaction transactionBiggest = null;
+            Transaction? transactionBiggest = null;
             decimal largest = 0;
             for (int i = 0; i < transactions.Count; i++)
-                if (transactions[i] is Expense expense)
+            {
+                if (transactions[i] is Expense)
                 {
-                    {
                         if (transactions[i].Amount > largest)
                         {
                             largest = transactions[i].Amount;
                             transactionBiggest = transactions[i];
                         }
-                    }
                 }
+            }
             return transactionBiggest;
         }
-        public Transaction FindBiggestIncome(List<Transaction> transactions)
+        public Transaction? FindBiggestIncome(List<Transaction> transactions)
         {
-            Transaction incomeBiggest = null;
+            Transaction? incomeBiggest = null;
             decimal largest = 0;
             foreach (Transaction transaction in transactions)
             {
-                if (transaction is Income income)
+                if (transaction is Income)
                 {
                     if (transaction.Amount > largest)
                     {
@@ -66,6 +66,15 @@ namespace BrrBrrMoney.Services
                 }
             }
             return incomeBiggest;
+        }
+        public decimal FindTotalSum(List<Transaction> transactions)
+        {
+            decimal sum = 0;
+            foreach (Transaction transaction in transactions)
+            {
+                sum += transaction.GetSignedAmount();
+            }
+            return sum;
         }
     }
 }

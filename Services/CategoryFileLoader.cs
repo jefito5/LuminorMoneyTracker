@@ -11,10 +11,14 @@ namespace BrrBrrMoney.Services
         {
             if (!File.Exists(filePath))
             {
-                throw new FileNotFoundException();
+                throw new FileNotFoundException($"The {filePath} does not exist");
             }
             string fileText = File.ReadAllText(filePath);
-            Dictionary<string, string> categories = JsonSerializer.Deserialize<Dictionary<string, string>>(fileText);
+            Dictionary<string, string>? categories = JsonSerializer.Deserialize<Dictionary<string, string>>(fileText);
+            if (categories == null)
+            {
+                throw new InvalidDataException("No categories");
+            }
             return categories;
         }
     }

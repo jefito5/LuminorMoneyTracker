@@ -3,12 +3,76 @@
   "LIDL": "Food shopping",
   "Maxima": "Food shopping",
   "Norfa": "Food shopping",
-  "Spotify": "Subscriptions",
-  "ORLEN": "Gas",
-  "Olimpas": "Bar",
-  "Urmo": "Food shopping",
   "Rimi": "Food shopping",
-  "Revolut": "Money transfer",
+  "Urmo": "Food shopping",
+  "Barbora": "Food shopping",
+  "Aibė": "Food shopping",
+  "Promo Cash&Carry": "Food shopping",
+  "Šilas": "Food shopping",
+
+  "Spotify": "Subscriptions",
+  "Netflix": "Subscriptions",
+  "Go3": "Subscriptions",
+
+  "ORLEN": "Gas",
+  "Circle K": "Gas",
+  "Viada": "Gas",
+  "Neste": "Gas",
+  "Baltic Petroleum": "Gas",
+  "Jozita": "Gas",
+
+  "Olimpas": "Bar",
+  "Šnekutis": "Bar",
+  "Alaus biblioteka": "Bar",
+  "Reingoldas": "Bar",
+
   "CAFFEINE": "Coffee",
-  "Bolt" :  "Travel"
+  "Vero Cafe": "Coffee",
+  "Huracan Coffee": "Coffee",
+
+  "Bolt": "Travel",
+  "CityBee": "Travel",
+  "Spark": "Travel",
+  "Trafi": "Travel",
+  "LTG Link": "Travel",
+  "Kautra": "Travel",
+  "Uber": "Travel",
+
+  "Revolut": "Money transfer",
+  "Swedbank": "Banking",
+  "SEB": "Banking",
+  "Luminor": "Banking",
+  "Šiaulių bankas": "Banking",
+
+  "Eurovaistinė": "Pharmacy",
+  "Camelia": "Pharmacy",
+  "Gintarinė vaistinė": "Pharmacy",
+  "Benu": "Pharmacy",
+
+  "Hesburger": "Dining",
+  "Čili Pizza": "Dining",
+  "Jammi": "Dining",
+  "Talutti": "Dining",
+
+  "Wolt": "Food delivery",
+  "Bolt Food": "Food delivery",
+
+  "Telia": "Telecommunications",
+  "Tele2": "Telecommunications",
+  "Bitė": "Telecommunications",
+
+  "Ignitis": "Utilities",
+
+  "Pigu.lt": "Shopping",
+  "Senukai": "Shopping",
+  "Depo": "Shopping",
+  "Ermitažas": "Shopping",
+  "Vinted": "Shopping",
+
+  "Lemon Gym": "Fitness",
+  "Gym+": "Fitness",
+  "Impuls": "Fitness",
+
+  "Forum Cinemas": "Entertainment",
+  "Apollo Kinas": "Entertainment"
 }

@@ -30,7 +30,7 @@ namespace BrrBrrMoney.Models
         }
         public override string ToString()
         {
-            return $"{Description} {Amount} {Date} {GetSignedAmount()} {Category}";
+            return $"{base.ToString()}  {Category}";
         }
     }
 }
