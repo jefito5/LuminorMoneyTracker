@@ -28,5 +28,9 @@ namespace BrrBrrMoney.Models
         {
             return -Amount; // Expense is negative
         }
+        public override string ToString()
+        {
+            return $"{Description} {Amount} {Date} {GetSignedAmount()} {Category}";
+        }
     }
 }

@@ -14,5 +14,9 @@ namespace BrrBrrMoney.Models
         {
             return Amount; // Income is positive
         }
+        public override string ToString()
+        {
+            return $"{Description} {Amount} {Date} {GetSignedAmount()}";
+        }
     }
 }

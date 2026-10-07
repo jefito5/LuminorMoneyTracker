@@ -21,7 +21,7 @@ namespace BrrBrrMoney.Services
                     }
                     else
                     {
-                        categorySums[expense.Category] =+ expense.Amount;
+                        categorySums[expense.Category] = +expense.Amount;
                     }
                 }
             }
@@ -29,15 +29,43 @@ namespace BrrBrrMoney.Services
         }
         public List<KeyValuePair<string, decimal>> SortByAmountDescending(Dictionary<string, decimal> categoryTotals)
         {
-            List<KeyValuePair<string,decimal>> sortedTotals = new List<KeyValuePair<string,decimal>>(categoryTotals);
-            sortedTotals.Sort((a,b) => b.Value.CompareTo(a.Value));
+            List<KeyValuePair<string, decimal>> sortedTotals = new List<KeyValuePair<string, decimal>>(categoryTotals);
+            sortedTotals.Sort((a, b) => b.Value.CompareTo(a.Value));
             return sortedTotals;
         }
-        public decimal FindBiggestSpend(List<Transaction> transactions)
+        public Transaction FindBiggestSpend(List<Transaction> transactions)
         {
+            Transaction transactionBiggest = null;
             decimal largest = 0;
-
-            return largest;
+            for (int i = 0; i < transactions.Count; i++)
+                if (transactions[i] is Expense expense)
+                {
+                    {
+                        if (transactions[i].Amount > largest)
+                        {
+                            largest = transactions[i].Amount;
+                            transactionBiggest = transactions[i];
+                        }
+                    }
+                }
+            return transactionBiggest;
+        }
+        public Transaction FindBiggestIncome(List<Transaction> transactions)
+        {
+            Transaction incomeBiggest = null;
+            decimal largest = 0;
+            foreach (Transaction transaction in transactions)
+            {
+                if (transaction is Income income)
+                {
+                    if (transaction.Amount > largest)
+                    {
+                        largest = transaction.Amount;
+                        incomeBiggest = transaction;
+                    }
+                }
+            }
+            return incomeBiggest;
         }
     }
 }
