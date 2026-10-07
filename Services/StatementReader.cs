@@ -1,7 +1,6 @@
 ﻿using BrrBrrMoney.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -17,6 +16,11 @@ namespace BrrBrrMoney.Services
         private const int DataIndex = 1;
         private const int TimeIndex = 2;
         private const int DescriptionIndex = 12;
+        private readonly ICategorizer _categorizer;
+        public StatementReader(ICategorizer categorizer)
+        {
+            _categorizer = categorizer ?? throw new ArgumentNullException(nameof(categorizer));
+        }
 
         public List<Transaction> ReadStatement(string filePath)
         {
@@ -43,7 +47,7 @@ namespace BrrBrrMoney.Services
 
                         if (type == "D")
                         {
-                            transactions.Add(new Expense(description, amount, date, "nekategorizuota"));
+                            transactions.Add(new Expense(description, amount, date, _categorizer.Categorize(description)));
                         }
                         else if (type == "C")
                         {

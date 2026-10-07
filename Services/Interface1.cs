@@ -11,7 +11,7 @@ namespace BrrBrrMoney.Services
     internal class Categorizer : ICategorizer
     {
         private readonly Dictionary<string, string> _categoryMappings; //Key word found in description -> Category name
-        private const string DefaultCategory = "Nekategorizuota";
+        private const string DefaultCategory = "Uncategorized";
         
         public Categorizer(Dictionary<string, string> categoryMappings)
         {
