@@ -33,5 +33,11 @@ namespace BrrBrrMoney.Services
             sortedTotals.Sort((a,b) => b.Value.CompareTo(a.Value));
             return sortedTotals;
         }
+        public decimal FindBiggestSpend(List<Transaction> transactions)
+        {
+            decimal largest = 0;
+
+            return largest;
+        }
     }
 }

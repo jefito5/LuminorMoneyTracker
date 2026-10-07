@@ -9,16 +9,10 @@ namespace BrrBrrMoney
         {
             
             decimal sum = 0;
-            Categorizer categorizer = new Categorizer(new Dictionary<string, string>
-            {
-                { "IKI", "Food shopping" },
-                { "CAFFEINE", "Coffee shops" },
-                { "LIDL", "Food shopping" },
-                { "Spotify", "Subscriptions" },
-                { "ORLEN", "Fuel" },
-                { "Norfa", "Food shopping" }
-
-            });
+            
+            CategoryFileLoader loader = new CategoryFileLoader();
+            Dictionary<string, string> categoryMapping = loader.Load("categories.json");
+            Categorizer categorizer = new Categorizer(categoryMapping);
             StatementReader reader = new StatementReader(categorizer);
             List<Transaction> statementTransactions = reader.ReadStatement("PavyzdiniaiDuomenys.csv");
             foreach (var transaction in statementTransactions)
@@ -41,9 +35,9 @@ namespace BrrBrrMoney
             List<KeyValuePair<string,decimal>> sortedTotals = analyzer.SortByAmountDescending(totals);
             foreach(var pair in sortedTotals)
             {
-                Console.WriteLine($"Category {pair.Key}: Sum {pair.Value}");
+                Console.WriteLine($"Category {pair.Key}: Total spent {pair.Value}");
             }
-            Console.WriteLine($"Total Sum: {sum}");
+            Console.WriteLine($"Total sum {sum}");
             Console.WriteLine($"Number of Transactions: {statementTransactions.Count}");
             Console.WriteLine($"Skipped Lines: {reader.SkippedLineCount}");
 
