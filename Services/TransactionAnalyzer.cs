@@ -41,11 +41,11 @@ namespace BrrBrrMoney.Services
             {
                 if (transactions[i] is Expense)
                 {
-                        if (transactions[i].Amount > largest)
-                        {
-                            largest = transactions[i].Amount;
-                            transactionBiggest = transactions[i];
-                        }
+                    if (transactions[i].Amount > largest)
+                    {
+                        largest = transactions[i].Amount;
+                        transactionBiggest = transactions[i];
+                    }
                 }
             }
             return transactionBiggest;
@@ -67,7 +67,7 @@ namespace BrrBrrMoney.Services
             }
             return incomeBiggest;
         }
-        public decimal FindTotalSum(List<Transaction> transactions)
+        public decimal FindTotalBalance(List<Transaction> transactions)
         {
             decimal sum = 0;
             foreach (Transaction transaction in transactions)
@@ -75,6 +75,56 @@ namespace BrrBrrMoney.Services
                 sum += transaction.GetSignedAmount();
             }
             return sum;
+        }
+        public decimal FindTotalExpense(List<Transaction> transactions)
+        {
+            decimal sum = 0;
+            foreach (Transaction transaction in transactions)
+            {
+                if (transaction is Expense)
+                {
+                    sum += transaction.Amount;
+                }
+            }
+            return sum;
+        }
+        public decimal FindTotalIncome(List<Transaction> transactions)
+        {
+            decimal sum = 0;
+            foreach (Transaction transaction in transactions)
+            {
+                if (transaction is Income)
+                {
+                    sum += transaction.Amount;
+                }
+            }
+            return sum;
+
+        }
+        public decimal? CalculateSavingsRate(List<Transaction> transactions)
+        {
+            decimal totalIncome = FindTotalIncome(transactions);
+            decimal totalExpense = FindTotalExpense(transactions);
+            if (totalIncome == 0)
+            {
+                return null;
+            }
+            decimal percentage = (totalIncome - totalExpense) / totalIncome * 100;
+            return percentage;
+        }
+        public Dictionary<string, decimal> CalculateCategoryShares(List<Transaction> transactions)
+        {
+            Dictionary<string, decimal> shares = new Dictionary<string, decimal>();
+            decimal totalExpenses = FindTotalExpense(transactions);
+            if (totalExpenses == 0)
+            {
+                return shares;
+            }
+            foreach (var pair in SumExpensesByCategory(transactions))
+            {
+                shares[pair.Key] = pair.Value / totalExpenses * 100;
+            }
+            return shares;
         }
     }
 }

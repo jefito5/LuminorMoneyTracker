@@ -8,23 +8,27 @@ namespace BrrBrrMoney
     {
         static void Main(string[] args)
         {
+            string fileName = "PavyzdiniaiDuomenys.csv";
             CategoryFileLoader loader = new CategoryFileLoader();
             Dictionary<string, string> categoryMapping = loader.Load("categories.json");
             Categorizer categorizer = new Categorizer(categoryMapping);
             StatementReader reader = new StatementReader(categorizer);
-            List<Transaction> statementTransactions = reader.ReadStatement("PavyzdiniaiDuomenys.csv");
+            List<Transaction> statementTransactions = reader.ReadStatement(fileName);
             foreach (var transaction in statementTransactions)
             {
                 Console.WriteLine(transaction);
             }
             TransactionAnalyzer analyzer = new TransactionAnalyzer();
             Dictionary<string, decimal> totals = analyzer.SumExpensesByCategory(statementTransactions);
-            List<KeyValuePair<string,decimal>> sortedTotals = analyzer.SortByAmountDescending(totals);
-            foreach(var pair in sortedTotals)
+            List<KeyValuePair<string, decimal>> sortedTotals = analyzer.SortByAmountDescending(totals);
+            Dictionary<string, decimal> shares = analyzer.CalculateCategoryShares(statementTransactions);
+            foreach (var pair in sortedTotals)
             {
-                Console.WriteLine($"Category {pair.Key}: Total spent {pair.Value}");
+                Console.WriteLine($"{pair.Key}: {pair.Value} ({shares[pair.Key]:F1} % from total expenses)");
             }
-            Console.WriteLine($"Total sum {analyzer.FindTotalSum(statementTransactions)}");
+            Console.WriteLine($"Total income: {analyzer.FindTotalIncome(statementTransactions)}");
+            Console.WriteLine($"Total expense: {analyzer.FindTotalExpense(statementTransactions)}");
+            Console.WriteLine($"Total balance {analyzer.FindTotalBalance(statementTransactions)}");
             Console.WriteLine($"Number of Transactions: {statementTransactions.Count}");
             Transaction? biggestPsender = analyzer.FindBiggestSpend(statementTransactions);
             Transaction? biggestIncome = analyzer.FindBiggestIncome(statementTransactions);
@@ -34,8 +38,15 @@ namespace BrrBrrMoney
             {
                 Console.WriteLine($"Biggest income: {biggestIncome.Amount} from {biggestIncome.Description}");
             }
-          
-            
+            decimal? rate = analyzer.CalculateSavingsRate(statementTransactions);
+            if (rate != null)
+            {
+                Console.WriteLine($"Savings rate: {rate:F2} %");
+            }
+            else
+            {
+                Console.WriteLine("Savings rate: no income");
+            }
         }
     }
 }

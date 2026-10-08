@@ -23,13 +23,21 @@ namespace BrrBrrMoney.Services
         }
         private static string CleanDescription(string raw)
         {
-            // Only card payments need cleaning; 49 is the minimum total length
-            if (!raw.StartsWith("*") || raw.Length <= 49) return raw;
+            if (!raw.StartsWith("*")) return raw;
 
-            // Skip card info at the start (30) and the operation number at the end (19)
-            string text = raw[30..^19];
+            int eur = raw.IndexOf("EUR");
+            if (eur < 0) return raw;
 
-            // The city is repeated at the end (KAUNASKAUNAS), keep only one copy
+            int start = eur + 14;   // "EUR" + 1 digit + date (10 characters)
+            if (start >= raw.Length) return raw;
+
+            int end = raw.IndexOf("LTU", start);   // country code after the city
+            if (end < 0) return raw;
+
+            string text = raw[start..end];
+            if (text.Length == 0) return raw;
+
+            // The city is repeated (KAUNASKAUNAS), keep only one copy
             string last = text[(text.LastIndexOf(' ') + 1)..];
             int half = last.Length / 2;
             bool repeated = last.Length % 2 == 0 && last[..half] == last[half..];
