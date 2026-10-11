@@ -7,6 +7,7 @@ namespace BrrBrrMoney.Models
     internal class Expense : Transaction
     {
         private string _Category = string.Empty;
+        
         public string Category
         {
             get { return _Category; }
