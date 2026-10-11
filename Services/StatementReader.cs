@@ -11,7 +11,7 @@ namespace BrrBrrMoney.Services
     internal class StatementReader
     {
         public int SkippedLineCount { get; private set; }
-        private const int TypeIndex = 5;
+        private const int TypeIndex = 5; //to not forget what numbers hold what value in the future
         private const int AmountIndex = 3;
         private const int DataIndex = 1;
         private const int TimeIndex = 2;
@@ -37,7 +37,7 @@ namespace BrrBrrMoney.Services
             string text = raw[start..end];
             if (text.Length == 0) return raw;
 
-            // The city is repeated (KAUNASKAUNAS), keep only one copy
+            // The city is repeated (KAUNASKAUNAS), keep only one
             string last = text[(text.LastIndexOf(' ') + 1)..];
             int half = last.Length / 2;
             bool repeated = last.Length % 2 == 0 && last[..half] == last[half..];
