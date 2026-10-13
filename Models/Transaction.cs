@@ -4,9 +4,9 @@ using System.Text;
 
 namespace BrrBrrMoney.Models
 {
-    internal abstract class Transaction
+    public abstract class Transaction
     {
-        public Guid Id { get;}
+        public Guid Id { get;} //no point actually for right now at least
         private string _Description = string.Empty;
         public string Description
         {
@@ -43,7 +43,7 @@ namespace BrrBrrMoney.Models
             Date = date;
         }
 
-        public abstract decimal GetSignedAmount();
+        public abstract decimal GetSignedAmount(); //expense or income imporant when inheritance
         public override string ToString()
         {
             return $"{Date:yyyy-MM-dd HH:mm} {GetSignedAmount(),9:+0.00;-0.00}  {Description}";

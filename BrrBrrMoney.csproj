@@ -26,8 +26,4 @@
     <InternalsVisibleTo Include="BrrBrrMoney.UnitTests" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="BrrBrrMoney.UnitTests\BrrBrrMoney.UnitTests.csproj" />
-  </ItemGroup>
-
 </Project>

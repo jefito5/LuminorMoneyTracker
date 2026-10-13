@@ -1,5 +1,5 @@
 <Solution>
   <Folder Name="/Solution Items/" />
+  <Project Path="../BrrBrrMoney.Api/BrrBrrMoney.Api.csproj" Id="9a04f422-d3b1-471d-85fe-5573a4906815" />
   <Project Path="BrrBrrMoney.csproj" />
-  <Project Path="BrrBrrMoney.UnitTests/BrrBrrMoney.UnitTests.csproj" />
 </Solution>

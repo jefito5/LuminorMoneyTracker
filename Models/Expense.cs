@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BrrBrrMoney.Models
 {
-    internal class Expense : Transaction
+    public class Expense : Transaction
     {
         private string _Category = string.Empty;
         

@@ -8,7 +8,7 @@ using System.Text;
 namespace BrrBrrMoney.Services
 {
  
-    internal class StatementReader
+    public class StatementReader
     {
         public int SkippedLineCount { get; private set; }
         private const int TypeIndex = 5; //to not forget what numbers hold what value in the future
@@ -21,28 +21,59 @@ namespace BrrBrrMoney.Services
         {
             _categorizer = categorizer ?? throw new ArgumentNullException(nameof(categorizer));
         }
+        private const string CurrencyMarker = "EUR";
+        private const string CountryMarker = "LTU";
+        private const int MarkerToTextOffset = 14;   // "EUR" + 1 digit + date (10 characters)
+        /// <summary>
+        /// Turns a raw bank statement line into a short description.
+        /// </summary>
         private static string CleanDescription(string raw)
         {
-            if (!raw.StartsWith("*")) return raw;
+            string? text = ExtractText(raw);
+            return text is null ? raw : RemoveRepeatedCity(text);
+        }
 
-            int eur = raw.IndexOf("EUR");
-            if (eur < 0) return raw;
+        // Returns null when the line doesn't match the expected format.
+        private static string? ExtractText(string raw)
+        {
+            if (!raw.StartsWith('*')) return null;
 
-            int start = eur + 14;   // "EUR" + 1 digit + date (10 characters)
-            if (start >= raw.Length) return raw;
+            int currencyIndex = raw.IndexOf(CurrencyMarker, StringComparison.Ordinal);
+            if (currencyIndex < 0) return null;
 
-            int end = raw.IndexOf("LTU", start);   // country code after the city
-            if (end < 0) return raw;
+            int textStart = currencyIndex + MarkerToTextOffset;
+            if (textStart >= raw.Length) return null;
 
-            string text = raw[start..end];
-            if (text.Length == 0) return raw;
+            int textEnd = raw.IndexOf(CountryMarker, textStart, StringComparison.Ordinal);
+            if (textEnd < 0) return null;
 
-            // The city is repeated (KAUNASKAUNAS), keep only one
-            string last = text[(text.LastIndexOf(' ') + 1)..];
-            int half = last.Length / 2;
-            bool repeated = last.Length % 2 == 0 && last[..half] == last[half..];
+            string text = raw.Substring(textStart, textEnd - textStart);
+            return text.Length == 0 ? null : text;
+        }
 
-            return repeated ? text[..^half] : text;
+        // The city is repeated (KAUNASKAUNAS), keep only one.
+        private static string RemoveRepeatedCity(string text)
+        {
+            string lastWord = GetLastWord(text);
+
+            if (!IsDoubled(lastWord)) return text;
+
+            int cityLength = lastWord.Length / 2;
+            return text.Substring(0, text.Length - cityLength);   // drop the second copy
+        }
+
+        private static string GetLastWord(string text)
+        {
+            int lastSpace = text.LastIndexOf(' ');   // -1 if there is no space
+            return text.Substring(lastSpace + 1);
+        }
+
+        private static bool IsDoubled(string word)
+        {
+            if (word.Length == 0 || word.Length % 2 != 0) return false;
+
+            int half = word.Length / 2;
+            return word.Substring(0, half) == word.Substring(half);
         }
         public List<Transaction> ReadStatement(string filePath)
         {

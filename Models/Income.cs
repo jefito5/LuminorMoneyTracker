@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BrrBrrMoney.Models
 {
-    internal class Income : Transaction
+    public class Income : Transaction
     {
         public Income(string description, decimal amount, DateTime date)
             : base(description, amount, date)

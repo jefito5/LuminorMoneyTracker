@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace BrrBrrMoney.Services
 {
-    internal class CategoryFileLoader
+    public class CategoryFileLoader
     {
         public Dictionary<string, string> Load(string filePath)
         {

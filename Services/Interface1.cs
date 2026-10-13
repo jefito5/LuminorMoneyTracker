@@ -4,13 +4,14 @@ using System.Text;
 
 namespace BrrBrrMoney.Services
 {
-    internal interface ICategorizer
+    public interface ICategorizer
     {
+
         public string Categorize(string description);
     }
-    internal class Categorizer : ICategorizer
+    public class Categorizer : ICategorizer
     {
-        private readonly Dictionary<string, string> _categoryMappings; //Key word found in description -> Category name
+        private readonly Dictionary<string, string> _categoryMappings; //Key word found in description means category name
         private const string DefaultCategory = "Uncategorized";
         
         public Categorizer(Dictionary<string, string> categoryMappings)
