@@ -1,4 +1,4 @@
-# LuminorSpendingTracker
+# LuminorMoneyTracker
 
 A small C# console app that shows where my money goes.
 
