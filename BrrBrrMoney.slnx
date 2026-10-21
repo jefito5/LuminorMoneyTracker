@@ -1,4 +1,3 @@
    <Solution>
      <Project Path="BrrBrrMoney/BrrBrrMoney.csproj" />
-     <Project Path="BrrBrrMoney.Api/BrrBrrMoney.Api.csproj" />
-   </Solution>
+</Solution>

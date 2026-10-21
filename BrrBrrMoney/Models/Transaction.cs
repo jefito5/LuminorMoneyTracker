@@ -8,7 +8,7 @@ namespace BrrBrrMoney.Models
     {
         public Guid Id { get;} //no point actually for right now at least
         private string _Description = string.Empty;
-        //TODO ADD TYPE FOR LOCALHOST API LIST TO WORK WITH EXPENSE INCOME
+        
         public string Description
         {
             get { return _Description; }
